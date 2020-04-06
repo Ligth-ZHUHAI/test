@@ -5,28 +5,31 @@
             <span class="title">黑马面面</span>
             <span class="line">|</span>
             <span class="userLogin">用户登录</span>
-            <el-form ref="form" :model="form" label-width="0px" class="loginForm">
-                <el-form-item>
-                    <el-input placeholder="请输入手机号" prefix-icon="el-icon-user"></el-input>
+            <el-form ref="form" :model="form" label-width="0px" class="loginForm" :rules="rules">
+                <el-form-item prop="phone">
+                    <el-input placeholder="请输入手机号" prefix-icon="el-icon-user" v-model="form.phone"></el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-input placeholder="请输入密码" prefix-icon="el-icon-lock"></el-input>
+                <el-form-item prop="password">
+                    <el-input placeholder="请输入密码" prefix-icon="el-icon-lock" v-model="form.password" :show-password="true"></el-input>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item prop="code">
                     <el-row>
                         <el-col :span="18">
-                            <el-input placeholder="请输入验证码" prefix-icon="el-icon-key"></el-input>
+                            <el-input placeholder="请输入验证码" prefix-icon="el-icon-key" v-model="form.code"></el-input>
+                        </el-col>
+                        <el-col :span="6">
+
                         </el-col>
                     </el-row>
                 </el-form-item>
             </el-form>
             <div class="terms">
-                <el-checkbox v-model="checked">
-                    <span class="content">我已阅读并同意<a href="#">用户协议</a>和 <a href="#">隐私条款</a></span>
+                <el-checkbox v-model="isCheck">
+                    <span class="content">我已阅读并同 <el-link>用户协议</el-link>和 <el-link>隐私条款</el-link></span>
                 </el-checkbox>
             </div>
             <div class="loginButton">
-                <el-button type="primary" class="button">登录</el-button>
+                <el-button type="primary" class="button" @click="loginClick">登录</el-button>
             </div>
             <div class="registerButton">
                 <el-button type="primary" class="button">注册</el-button>
@@ -41,7 +44,52 @@
 <script>
     export default {
         name: 'login',
-
+        data() {
+            return {
+                isCheck: false,
+                form: {
+                    phone: '',
+                    password: '',
+                    code: '',
+                },
+                rules: {
+                    phone: [{
+                        required: true,
+                        message: '请输入手机号',
+                        trigger: "blur"
+                    }],
+                    password: [{
+                            required: true,
+                            message: '请输入密码',
+                            trigger: "blur"
+                        },
+                        {
+                            min: 6,
+                            max: 12,
+                            message: '请输入6~12位',
+                            trigger: 'blur'
+                        }],
+                    code: [{
+                        required: true,
+                        message: '请输入验证码',
+                        trigger: "blur"
+                    },
+                        {
+                            min:4,
+                            max:4,
+                            message:'请输入4位数验证码'
+                        }
+                    ],
+                }
+            }
+        },
+        methods:{
+            loginClick(){
+                this.$refs.form.validate(result=>{
+                    this.$message.success(result+'');
+                })
+            }
+        }
     }
 </script>
 
