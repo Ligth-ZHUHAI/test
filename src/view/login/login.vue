@@ -87,6 +87,7 @@
             loginClick(){
                 this.$refs.form.validate(result=>{
                     this.$message.success(result+'');
+                    
                 })
             }
         }
