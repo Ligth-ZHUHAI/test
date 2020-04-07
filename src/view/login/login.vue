@@ -32,8 +32,12 @@
                 <el-button type="primary" class="button" @click="loginClick">登录</el-button>
             </div>
             <div class="registerButton">
-                <el-button type="primary" class="button">注册</el-button>
+                <el-button type="primary" class="button" @click="registerClick">注册</el-button>
             </div>
+
+            <register ref="register" />
+
+
         </div>
         <div class="right">
             <img src="@/assets/img/login_banner_ele.png" alt="">
@@ -42,8 +46,14 @@
 </template>
 
 <script>
+    // 导入register子组件
+    import register from './register'
+
     export default {
         name: 'login',
+        components:{
+            register,
+        },
         data() {
             return {
                 isCheck: false,
@@ -88,8 +98,15 @@
                 this.$refs.form.validate(result=>{
                     this.$message.success(result+'');
                 })
+            },
+            registerClick(){
+                this.$refs.register.dialogVisible = true
             }
-        }
+        },
+        // 环境变量
+        // created(){
+        //     alert(process.env.VUE_APP_URL);
+        // }
     }
 </script>
 
